@@ -1,18 +1,10 @@
+
 cd ./apr 
-set fh [open "../numberPR8" "r"]
-set dc_id [read $fh]
-set dc_id [string trim $dc_id]
+set dc_id "b14"
 set run_name $dc_id
 append run_name "_0.7_medium_0.9" 
 file mkdir $run_name
-file copy -force ../DCscript.tcl ../apr/$run_name 
-file copy -force ../numberPR8 ../apr/$run_name 
 file copy -force ../zhiyao.tcl ../apr/$run_name 
-file copy -force ../time.tcl ../apr/$run_name 
-file copy -force ../main.tcl ../apr/$run_name 
-file copy -force ../saveTime.sh ../apr/$run_name 
-file copy -force ../saveTime.py ../apr/$run_name 
-file copy -force ../parse_net.py ../apr/$run_name 
 file copy -force $dc_id/output2.v ../output2.v 
 file copy -force $dc_id/output2.sdc ../output2.sdc 
 source ../test.globals 
@@ -22,8 +14,7 @@ set_interactive_constraint_modes [all_constraint_modes -active]
 reset_wire_load_model 
 reset_ideal_network [get_nets *] 
 cd ./$run_name 
-file mkdir setuptime 
-set systemTime [clock seconds]
+
 set design "b14"
 clearGlobalNets 
 globalNetConnect VDD -type pgpin -pin VDD -inst * -module {} 
@@ -53,22 +44,18 @@ addStripe -skip_via_on_wire_shape Noshape -block_ring_top_layer_limit metal6 -ma
 sroute -connect { corePin } -layerChangeRange { metal1 metal10 } -blockPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -allowJogging 1 -crossoverViaLayerRange { metal1 metal10 } -nets { VDD VSS } -allowLayerChange 1 -targetViaLayerRange { metal1 metal10 } 
 setEndCapMode -reset 
 setEndCapMode -boundary_tap false 
-#################
-source main.tcl
+
 #################
 setPlaceMode -reset 
 setPlaceMode -congEffort medium -timingDriven 1 -modulePlan 1 -clkGateAware 1 -powerDriven 1 -ignoreScan 1 -reorderScan 1 -ignoreSpare 0 -placeIOPins 1 -moduleAwareSpare 0 -maxDensity 0.9 -preserveRouting 0 -rmAffectedRouting 0 -checkRoute 0 -swapEEQ 0 
 setPlaceMode -fp false 
 puts "placeDesign -noPrePlaceOpt!!!!!"
 placeDesign -noPrePlaceOpt 
-puts "end placeDesign -noPrePlaceOpt!!!!!"
-set summ_report preR_summ_$run_name 
-summaryReport -noHtml -outfile $summ_report 
-
-##################
 source zhiyao.tcl 
+
 #################
 report_power -outfile place_power.txt 
 report_area -out_file place_area.txt 
 summaryReport -outfile place_summary.txt 
 exit 
+
