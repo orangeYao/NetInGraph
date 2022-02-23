@@ -49,9 +49,8 @@ setEndCapMode -boundary_tap false
 setPlaceMode -reset 
 setPlaceMode -congEffort medium -timingDriven 1 -modulePlan 1 -clkGateAware 1 -powerDriven 1 -ignoreScan 1 -reorderScan 1 -ignoreSpare 0 -placeIOPins 1 -moduleAwareSpare 0 -maxDensity 0.9 -preserveRouting 0 -rmAffectedRouting 0 -checkRoute 0 -swapEEQ 0 
 setPlaceMode -fp false 
-puts "placeDesign -noPrePlaceOpt!!!!!"
 placeDesign -noPrePlaceOpt 
-source zhiyao.tcl 
+source dumpNets.tcl
 
 #################
 report_power -outfile place_power.txt 

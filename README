@@ -1,7 +1,7 @@
 1_flow
 
 P&R scripts are in scripts/innovus_pr.tcl
-    ## invoking scripts/zhiyao.tcl to save output
+    ## invoking scripts/dumpNets.tcl to save output
 
 Example Output: output/b14.txt
     ## with cell and net information
